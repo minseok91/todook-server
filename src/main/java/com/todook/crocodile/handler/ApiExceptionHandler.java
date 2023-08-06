@@ -1,5 +1,6 @@
 package com.todook.crocodile.handler;
 
+import com.todook.crocodile.exception.NotAllowedRefererException;
 import com.todook.crocodile.presentation.ApiResponse;
 import com.todook.crocodile.presentation.ApiResponseStatus;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,16 @@ public class ApiExceptionHandler {
                 .status(ApiResponseStatus.INTERNAL_SERVER_ERROR)
                 .build();
 
+        return new ResponseEntity<>(apiResponse, apiResponse.getHttpStatus());
+    }
+
+    @ExceptionHandler(NotAllowedRefererException.class)
+    public ResponseEntity<Object> handleNotAllowedReferer(Exception e) {
+        log.warn("[FORBIDDEN] {}", e.getMessage());
+
+        final ApiResponse<Object> apiResponse = ApiResponse.builder()
+                .status(ApiResponseStatus.FORBIDDEN)
+                .build();
         return new ResponseEntity<>(apiResponse, apiResponse.getHttpStatus());
     }
 }
