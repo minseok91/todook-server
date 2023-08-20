@@ -1,10 +1,39 @@
 spring:
+  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/board?characterEncoding=utf8
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mysql://localhost:3306/board?characterEncoding=utf8
+    username: root
+    password: 1234
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+jpa:
+  show-sql: true
+  hibernate:
+    ddl-auto: none
+  properties:
+    hibernate:
+      format_sql: true
+
+mybatis:
+  mybatis.type-aliases-package: com.todook.crocodile # xml 파일 result type에 패키지명을 생략할 수 있도록 alias 설정
+  mapper-locations: mybatis/**/*.xml # mapper 파일 경로 설정
+  configuration.map-underscore-to-camel-case: true # model 프로퍼티 camel case 설정
 
 crocodile:
   allowed-referers:
     - http://localhost:8080
     - http://localhost:3000
     - https://todook-server-production.up.railway.app
+
+logging:
+  level:
+    jdbc:
+      sqlonly: off # SQL 문을 보여준다
+      sqltiming: debug # SQL 문과 이 SQL 문을 수행하는 시간을 같이 보여준다
+      resultsettable: off # ResultSet 을 제외한 모든 JDBC 호출 정보를 로그로 보여준다.
+      audit: off
+      resultset: off # SQL 의 결과로 조회된 데이터를 table 형태로 로그를 보여준다.
+      connection: off # DB 연결, 연결 해제와 관련된 로그를 보여준다.
