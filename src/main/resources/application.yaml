@@ -1,15 +1,12 @@
 spring:
   datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/board?characterEncoding=utf8
-    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:mysql://localhost:3306/board?characterEncoding=utf8
-    username: root
-    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
 jpa:
+  database: mysql
+  database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
   show-sql: true
   hibernate:
     ddl-auto: none
@@ -37,3 +34,16 @@ logging:
       audit: off
       resultset: off # SQL 의 결과로 조회된 데이터를 table 형태로 로그를 보여준다.
       connection: off # DB 연결, 연결 해제와 관련된 로그를 보여준다.
+
+
+# local
+---
+spring:
+  config:
+    activate:
+      on-profile: local # 스프링부트를 띄울때 profile이 local 이면 아래 설정을 따르도록 합니다.
+  datasource:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mysql://localhost:3306/board?characterEncoding=utf8
+    username: root
+    password: 1234
