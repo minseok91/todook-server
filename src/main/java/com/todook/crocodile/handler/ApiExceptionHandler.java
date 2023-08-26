@@ -1,6 +1,8 @@
 package com.todook.crocodile.handler;
 
+import com.todook.crocodile.exception.BadRequestException;
 import com.todook.crocodile.exception.NotAllowedRefererException;
+import com.todook.crocodile.exception.NotFoundException;
 import com.todook.crocodile.presentation.ApiResponse;
 import com.todook.crocodile.presentation.ApiResponseStatus;
 import lombok.extern.slf4j.Slf4j;
@@ -33,12 +35,23 @@ public class ApiExceptionHandler {
         return new ResponseEntity<>(apiResponse, apiResponse.getHttpStatus());
     }
 
-    @ExceptionHandler(NoHandlerFoundException.class)
+    @ExceptionHandler({NoHandlerFoundException.class, NotFoundException.class})
     public ResponseEntity<Object> handleNoHandlerFound(Exception e) {
         log.warn("[NOT_FOUND] {}", e.getMessage());
 
         final ApiResponse<Object> apiResponse = ApiResponse.builder()
                 .status(ApiResponseStatus.NOT_FOUND)
+                .build();
+
+        return new ResponseEntity<>(apiResponse, apiResponse.getHttpStatus());
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<Object> handleBadRequestException(Exception e) {
+        log.warn("[BAD_REQUEST] {}", e.getMessage());
+
+        final ApiResponse<Object> apiResponse = ApiResponse.builder()
+                .status(ApiResponseStatus.BAD_REQUEST)
                 .build();
 
         return new ResponseEntity<>(apiResponse, apiResponse.getHttpStatus());
