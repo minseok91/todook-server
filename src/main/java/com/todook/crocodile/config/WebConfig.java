@@ -1,20 +1,22 @@
 package com.todook.crocodile.config;
 
-import com.todook.crocodile.interceptor.RefererCheckInterceptor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.todook.crocodile.domain.auth.token.UserTokenService;
+import com.todook.crocodile.interceptor.RefererCheckInterceptor;
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
     private final CrocodileConfig crocodileConfig;
+    private final UserTokenService userTokenService;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new RefererCheckInterceptor(crocodileConfig))
+        registry.addInterceptor(new RefererCheckInterceptor(crocodileConfig, userTokenService))
                 // all
                 .addPathPatterns("/**")
                 // swagger
@@ -24,3 +26,4 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/webjars/**");
     }
 }
+
