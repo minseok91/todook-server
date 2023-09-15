@@ -1,4 +1,4 @@
-package com.todook.crocodile.domain.auth;
+package com.todook.crocodile.domain.auth.oauth2;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import com.todook.crocodile.domain.auth.AuthService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +28,6 @@ public class OAuth2Controller {
     private final int UTKN_MAX_AGE = 60 * 60 * 24 * 7;
     private final AuthService authService;
 
-    @GetMapping("/authorize/{provider}")
-    public ApiResponse<String> authorize(@PathVariable OAuth2Provider provider) {
-        return ApiResponse.<String>builder()
-                .data(authService.getAuthorizeUrl(provider))
-                .build();
-    }
 
     @GetMapping("/callback/{provider}")
     public ResponseEntity<Object> callback(@PathVariable OAuth2Provider provider, String code,

@@ -21,7 +21,7 @@ public class SwaggerConfig {
                 )
                 .useDefaultResponseMessages(false)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.todook.crocodile"))
+                .apis(RequestHandlerSelectors.basePackage("com.todook.crocodile.presentation"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(new ApiInfoBuilder()
